@@ -23,7 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (_nameController.text.isEmpty ||
         _emailController.text.isEmpty ||
         _passwordController.text.isEmpty) {
-      _showError('Sab fields bharein');
+      _showError('All fields are required');
       return;
     }
     setState(() => _isLoading = true);
@@ -56,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         iconTheme: const IconThemeData(color: AppColors.textWhite),
-        title: Text('Naya Account',
+        title: Text('New Account',
             style: GoogleFonts.sora(color: AppColors.textWhite)),
       ),
       body: SafeArea(
@@ -65,7 +65,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             children: [
               const SizedBox(height: 32),
-              Text('HireReady.pk mein Khush Aamdeed!',
+              Text('HireReady.pk is your career partner',
                   style: GoogleFonts.sora(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -73,7 +73,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   textAlign: TextAlign.center),
               const SizedBox(height: 8),
-              Text('Apna account banao aur apni journey shuru karo',
+              Text('Create an account and start your journey',
                   style: TextStyle(color: AppColors.textGrey, fontSize: 14),
                   textAlign: TextAlign.center),
               const SizedBox(height: 40),
@@ -81,7 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 controller: _nameController,
                 style: const TextStyle(color: AppColors.textWhite),
                 decoration: InputDecoration(
-                  labelText: 'Apna Naam',
+                  labelText: 'Your Name',
                   labelStyle: const TextStyle(color: AppColors.textGrey),
                   prefixIcon: const Icon(Icons.person_outline, color: AppColors.primary),
                   filled: true,
@@ -147,7 +147,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   child: _isLoading
                       ? const CircularProgressIndicator(color: Colors.white)
-                      : Text('Account Banao',
+                      : Text('Creat Account',
                           style: GoogleFonts.sora(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,

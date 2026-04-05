@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _login() async {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-      _showError('Email aur password dono bharein');
+      _showError('Email and password are required');
       return;
     }
     setState(() => _isLoading = true);
@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: AppColors.primary,
                   )),
               const SizedBox(height: 8),
-              Text('Pakistani students ka career partner',
+              Text('Because your future is worth tracking',
                   style: TextStyle(color: AppColors.textGrey, fontSize: 14)),
               const SizedBox(height: 60),
               TextField(
@@ -147,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Expanded(child: Divider(color: AppColors.textGrey.withOpacity(0.3))),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text('YA', style: TextStyle(color: AppColors.textGrey)),
+                  child: Text('OR', style: TextStyle(color: AppColors.textGrey)),
                 ),
                 Expanded(child: Divider(color: AppColors.textGrey.withOpacity(0.3))),
               ]),
@@ -158,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: OutlinedButton.icon(
                   onPressed: _isLoading ? null : _googleLogin,
                   icon: const Icon(Icons.g_mobiledata, color: AppColors.primary, size: 28),
-                  label: Text('Google se Login',
+                  label: Text('Login with Google',
                       style: TextStyle(color: AppColors.textWhite, fontSize: 16)),
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: AppColors.primary),
@@ -172,12 +172,12 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Account nahi hai? ',
+                  Text('Don\'t have an account? ',
                       style: TextStyle(color: AppColors.textGrey)),
                   GestureDetector(
                     onTap: () => Navigator.push(context,
                         MaterialPageRoute(builder: (_) => const RegisterScreen())),
-                    child: Text('Register karo',
+                    child: Text('Create an account',
                         style: TextStyle(
                             color: AppColors.primary,
                             fontWeight: FontWeight.bold)),

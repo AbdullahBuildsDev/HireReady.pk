@@ -52,7 +52,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
     if (_companyController.text.isEmpty || _roleController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Company aur Role zaroor bharein'),
+          content: Text('Company and Role are required'),
           backgroundColor: AppColors.error,
         ),
       );
@@ -88,7 +88,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         iconTheme: const IconThemeData(color: AppColors.textWhite),
-        title: Text('Nai Job Add Karo',
+        title: Text('Add New Job',
             style: GoogleFonts.sora(color: AppColors.textWhite)),
       ),
       body: SingleChildScrollView(
@@ -165,7 +165,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
                 ),
                 child: _isLoading
                     ? const CircularProgressIndicator(color: Colors.white)
-                    : Text('Job Save Karo',
+                    : Text('Save job',
                         style: GoogleFonts.sora(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -220,7 +220,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
                 Text(
                   date != null
                       ? '${date.day}/${date.month}/${date.year}'
-                      : optional ? 'Select karo (optional)' : 'Select karo',
+                      : optional ? 'Select(optional)' : 'Select',
                   style: const TextStyle(color: AppColors.textWhite),
                 ),
               ],

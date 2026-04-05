@@ -57,9 +57,9 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: AppColors.card,
-        title: Text('Delete karo?',
+        title: Text('DeleteJob?',
             style: TextStyle(color: AppColors.textWhite)),
-        content: Text('Kya aap is job ko delete karna chahte ho?',
+        content: Text('Are you sure you want to delete this job?',
             style: TextStyle(color: AppColors.textGrey)),
         actions: [
           TextButton(
@@ -194,7 +194,7 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
               maxLines: 5,
               style: const TextStyle(color: AppColors.textWhite),
               decoration: InputDecoration(
-                hintText: 'Koi notes likhein...',
+                hintText: 'Add any notes...',
                 hintStyle: const TextStyle(color: AppColors.textGrey),
                 filled: true,
                 fillColor: AppColors.card,
