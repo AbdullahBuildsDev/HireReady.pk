@@ -18,7 +18,6 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   final _authService = AuthService();
   final _firestoreService = FirestoreService();
-  String _searchQuery = '';
   String _filterStatus = 'all';
 
   Color _statusColor(String status) {
@@ -73,10 +72,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           }
           final jobs = snapshot.data ?? [];
           final filtered = jobs.where((j) {
-            final matchSearch = j.company.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-                j.role.toLowerCase().contains(_searchQuery.toLowerCase());
-            final matchFilter = _filterStatus == 'all' || j.status == _filterStatus;
-            return matchSearch && matchFilter;
+            return _filterStatus == 'all' || j.status == _filterStatus;
           }).toList();
 
           final total = jobs.length;
@@ -100,25 +96,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: TextField(
-                  onChanged: (v) => setState(() => _searchQuery = v),
-                  style: const TextStyle(color: AppColors.textWhite),
-                  decoration: InputDecoration(
-                    hintText: 'Company ya role search karo...',
-                    hintStyle: const TextStyle(color: AppColors.textGrey),
-                    prefixIcon: const Icon(Icons.search, color: AppColors.textGrey),
-                    filled: true,
-                    fillColor: AppColors.card,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -127,7 +105,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       .map((s) => Padding(
                             padding: const EdgeInsets.only(right: 8),
                             child: FilterChip(
-                              label: Text(_filterStatus == 'all' && s == 'all' ? 'Sab' : _statusLabel(s),
+                              label: Text(s == 'all' ? 'Sab' : _statusLabel(s),
                                   style: TextStyle(
                                       color: _filterStatus == s
                                           ? Colors.white
