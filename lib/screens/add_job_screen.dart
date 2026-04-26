@@ -52,7 +52,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
     if (_companyController.text.isEmpty || _roleController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Company and Role are required'),
+          content: Text('Please enter company name and role'),
           backgroundColor: AppColors.error,
         ),
       );
@@ -75,7 +75,9 @@ class _AddJobScreenState extends State<AddJobScreen> {
       if (mounted) Navigator.pop(context);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e'), backgroundColor: AppColors.error),
+        SnackBar(
+            content: Text('Error saving job: $e'),
+            backgroundColor: AppColors.error),
       );
     }
     setState(() => _isLoading = false);
@@ -143,14 +145,11 @@ class _AddJobScreenState extends State<AddJobScreen> {
             const SizedBox(height: 16),
             _buildDateTile('Apply Date', _applyDate, () => _pickDate()),
             const SizedBox(height: 12),
-            _buildDateTile(
-              'Follow-up Deadline',
-              _deadline,
-              () => _pickDate(isDeadline: true),
-              optional: true,
-            ),
+            _buildDateTile('Follow-up Deadline', _deadline,
+                () => _pickDate(isDeadline: true), optional: true),
             const SizedBox(height: 16),
-            _buildTextField(_notesController, 'Notes (optional)', Icons.notes_outlined, maxLines: 4),
+            _buildTextField(_notesController, 'Notes (optional)',
+                Icons.notes_outlined, maxLines: 4),
             const SizedBox(height: 32),
             SizedBox(
               width: double.infinity,
@@ -165,7 +164,7 @@ class _AddJobScreenState extends State<AddJobScreen> {
                 ),
                 child: _isLoading
                     ? const CircularProgressIndicator(color: Colors.white)
-                    : Text('Save job',
+                    : Text('Save Job',
                         style: GoogleFonts.sora(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -211,16 +210,19 @@ class _AddJobScreenState extends State<AddJobScreen> {
         ),
         child: Row(
           children: [
-            const Icon(Icons.calendar_today, color: AppColors.primary, size: 20),
+            const Icon(Icons.calendar_today,
+                color: AppColors.primary, size: 20),
             const SizedBox(width: 12),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(label, style: const TextStyle(color: AppColors.textGrey, fontSize: 12)),
+                Text(label,
+                    style: const TextStyle(
+                        color: AppColors.textGrey, fontSize: 12)),
                 Text(
                   date != null
                       ? '${date.day}/${date.month}/${date.year}'
-                      : optional ? 'Select(optional)' : 'Select',
+                      : optional ? 'Select (optional)' : 'Select date',
                   style: const TextStyle(color: AppColors.textWhite),
                 ),
               ],

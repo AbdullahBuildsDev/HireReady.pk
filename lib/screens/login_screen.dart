@@ -21,21 +21,27 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _login() async {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-      _showError('Email and password are required');
+      _showError('Please enter your email and password');
       return;
     }
     setState(() => _isLoading = true);
     try {
-      await _authService.signInWithEmail(
+      final result = await _authService.signInWithEmail(
         _emailController.text.trim(),
         _passwordController.text.trim(),
       );
+      if (result?.user?.emailVerified == false) {
+        await _authService.signOut();
+        _showError('Please verify your email first. Check your inbox.');
+        setState(() => _isLoading = false);
+        return;
+      }
       if (mounted) {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (_) => const DashboardScreen()));
       }
     } catch (e) {
-      _showError('Login failed: ${e.toString()}');
+      _showError('Login failed. Check your email and password.');
     }
     setState(() => _isLoading = false);
   }
@@ -49,7 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
             MaterialPageRoute(builder: (_) => const DashboardScreen()));
       }
     } catch (e) {
-      _showError('Google login failed');
+      _showError('Google login failed. Please try again.');
     }
     setState(() => _isLoading = false);
   }
@@ -79,7 +85,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   )),
               const SizedBox(height: 8),
               Text('Because your future is worth tracking',
-                  style: TextStyle(color: AppColors.textGrey, fontSize: 14)),
+                  style:
+                      TextStyle(color: AppColors.textGrey, fontSize: 14)),
               const SizedBox(height: 60),
               TextField(
                 controller: _emailController,
@@ -87,7 +94,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 decoration: InputDecoration(
                   labelText: 'Email',
                   labelStyle: const TextStyle(color: AppColors.textGrey),
-                  prefixIcon: const Icon(Icons.email_outlined, color: AppColors.primary),
+                  prefixIcon: const Icon(Icons.email_outlined,
+                      color: AppColors.primary),
                   filled: true,
                   fillColor: AppColors.card,
                   border: OutlineInputBorder(
@@ -104,13 +112,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 decoration: InputDecoration(
                   labelText: 'Password',
                   labelStyle: const TextStyle(color: AppColors.textGrey),
-                  prefixIcon: const Icon(Icons.lock_outlined, color: AppColors.primary),
+                  prefixIcon: const Icon(Icons.lock_outlined,
+                      color: AppColors.primary),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      _obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
                       color: AppColors.textGrey,
                     ),
-                    onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                    onPressed: () =>
+                        setState(() => _obscurePassword = !_obscurePassword),
                   ),
                   filled: true,
                   fillColor: AppColors.card,
@@ -144,12 +156,17 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 24),
               Row(children: [
-                Expanded(child: Divider(color: AppColors.textGrey.withOpacity(0.3))),
+                Expanded(
+                    child: Divider(
+                        color: AppColors.textGrey.withOpacity(0.3))),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text('OR', style: TextStyle(color: AppColors.textGrey)),
+                  child: Text('OR',
+                      style: TextStyle(color: AppColors.textGrey)),
                 ),
-                Expanded(child: Divider(color: AppColors.textGrey.withOpacity(0.3))),
+                Expanded(
+                    child: Divider(
+                        color: AppColors.textGrey.withOpacity(0.3))),
               ]),
               const SizedBox(height: 24),
               SizedBox(
@@ -157,9 +174,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 52,
                 child: OutlinedButton.icon(
                   onPressed: _isLoading ? null : _googleLogin,
-                  icon: const Icon(Icons.g_mobiledata, color: AppColors.primary, size: 28),
-                  label: Text('Login with Google',
-                      style: TextStyle(color: AppColors.textWhite, fontSize: 16)),
+                  icon: const Icon(Icons.g_mobiledata,
+                      color: AppColors.primary, size: 28),
+                  label: Text('Continue with Google',
+                      style: TextStyle(
+                          color: AppColors.textWhite, fontSize: 16)),
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: AppColors.primary),
                     shape: RoundedRectangleBorder(
@@ -172,12 +191,14 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Don\'t have an account? ',
+                  Text("Don't have an account? ",
                       style: TextStyle(color: AppColors.textGrey)),
                   GestureDetector(
-                    onTap: () => Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => const RegisterScreen())),
-                    child: Text('Create an account',
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const RegisterScreen())),
+                    child: Text('Register',
                         style: TextStyle(
                             color: AppColors.primary,
                             fontWeight: FontWeight.bold)),

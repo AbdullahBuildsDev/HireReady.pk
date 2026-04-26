@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../services/auth_service.dart';
 import '../theme/app_theme.dart';
-import 'dashboard_screen.dart';
+import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -23,7 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (_nameController.text.isEmpty ||
         _emailController.text.isEmpty ||
         _passwordController.text.isEmpty) {
-      _showError('All fields are required');
+      _showError('Please fill in all fields');
       return;
     }
     setState(() => _isLoading = true);
@@ -34,8 +34,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
       await result?.user?.updateDisplayName(_nameController.text.trim());
       if (mounted) {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (_) => const DashboardScreen()));
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => AlertDialog(
+            backgroundColor: AppColors.card,
+            title: Text('Verify Your Email',
+                style: TextStyle(color: AppColors.textWhite)),
+            content: Text(
+              'A verification link has been sent to ${_emailController.text.trim()}. Please verify your email before logging in.',
+              style: TextStyle(color: AppColors.textGrey),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (_) => const LoginScreen()));
+                },
+                child: Text('Go to Login',
+                    style: TextStyle(color: AppColors.primary)),
+              ),
+            ],
+          ),
+        );
       }
     } catch (e) {
       _showError('Registration failed: ${e.toString()}');
@@ -56,7 +78,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         iconTheme: const IconThemeData(color: AppColors.textWhite),
-        title: Text('New Account',
+        title: Text('Create Account',
             style: GoogleFonts.sora(color: AppColors.textWhite)),
       ),
       body: SafeArea(
@@ -65,7 +87,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             children: [
               const SizedBox(height: 32),
-              Text('HireReady.pk is your career partner',
+              Text('Welcome to HireReady.pk',
                   style: GoogleFonts.sora(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -73,7 +95,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   textAlign: TextAlign.center),
               const SizedBox(height: 8),
-              Text('Create an account and start your journey',
+              Text('Create your account and start tracking',
                   style: TextStyle(color: AppColors.textGrey, fontSize: 14),
                   textAlign: TextAlign.center),
               const SizedBox(height: 40),
@@ -81,9 +103,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 controller: _nameController,
                 style: const TextStyle(color: AppColors.textWhite),
                 decoration: InputDecoration(
-                  labelText: 'Your Name',
+                  labelText: 'Full Name',
                   labelStyle: const TextStyle(color: AppColors.textGrey),
-                  prefixIcon: const Icon(Icons.person_outline, color: AppColors.primary),
+                  prefixIcon: const Icon(Icons.person_outline,
+                      color: AppColors.primary),
                   filled: true,
                   fillColor: AppColors.card,
                   border: OutlineInputBorder(
@@ -99,7 +122,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 decoration: InputDecoration(
                   labelText: 'Email',
                   labelStyle: const TextStyle(color: AppColors.textGrey),
-                  prefixIcon: const Icon(Icons.email_outlined, color: AppColors.primary),
+                  prefixIcon: const Icon(Icons.email_outlined,
+                      color: AppColors.primary),
                   filled: true,
                   fillColor: AppColors.card,
                   border: OutlineInputBorder(
@@ -116,10 +140,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 decoration: InputDecoration(
                   labelText: 'Password',
                   labelStyle: const TextStyle(color: AppColors.textGrey),
-                  prefixIcon: const Icon(Icons.lock_outlined, color: AppColors.primary),
+                  prefixIcon:
+                      const Icon(Icons.lock_outlined, color: AppColors.primary),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                      _obscurePassword
+                          ? Icons.visibility_off
+                          : Icons.visibility,
                       color: AppColors.textGrey,
                     ),
                     onPressed: () =>
@@ -147,7 +174,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   child: _isLoading
                       ? const CircularProgressIndicator(color: Colors.white)
-                      : Text('Creat Account',
+                      : Text('Create Account',
                           style: GoogleFonts.sora(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,

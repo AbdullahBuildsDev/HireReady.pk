@@ -105,7 +105,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       .map((s) => Padding(
                             padding: const EdgeInsets.only(right: 8),
                             child: FilterChip(
-                              label: Text(s == 'all' ? 'Sab' : _statusLabel(s),
+                              label: Text(s == 'all' ? 'All' : _statusLabel(s),
                                   style: TextStyle(
                                       color: _filterStatus == s
                                           ? Colors.white
@@ -130,10 +130,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             Icon(Icons.work_outline,
                                 size: 64, color: AppColors.textGrey),
                             const SizedBox(height: 16),
-                            Text('Koi application nahi',
+                            Text('No applications yet',
                                 style: TextStyle(color: AppColors.textGrey)),
                             const SizedBox(height: 8),
-                            Text('+ button se nai job add karo',
+                            Text('Tap + to add your first job',
                                 style: TextStyle(
                                     color: AppColors.textGrey, fontSize: 12)),
                           ],

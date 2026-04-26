@@ -11,10 +11,11 @@ class AuthService {
 
   Future<UserCredential?> signInWithEmail(String email, String password) async {
     try {
-      return await _auth.signInWithEmailAndPassword(
+      final result = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      return result;
     } catch (e) {
       rethrow;
     }
@@ -22,10 +23,12 @@ class AuthService {
 
   Future<UserCredential?> registerWithEmail(String email, String password) async {
     try {
-      return await _auth.createUserWithEmailAndPassword(
+      final result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      await result.user?.sendEmailVerification();
+      return result;
     } catch (e) {
       rethrow;
     }
