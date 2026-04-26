@@ -45,7 +45,7 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Job update ho gayi!'),
+          content: Text('Job updated successfully!'),
           backgroundColor: AppColors.success,
         ),
       );
@@ -57,7 +57,7 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: AppColors.card,
-        title: Text('DeleteJob?',
+        title: Text('Delete Job?',
             style: TextStyle(color: AppColors.textWhite)),
         content: Text('Are you sure you want to delete this job?',
             style: TextStyle(color: AppColors.textGrey)),
@@ -218,7 +218,7 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                 ),
                 child: _isLoading
                     ? const CircularProgressIndicator(color: Colors.white)
-                    : Text('Save Karo',
+                    : Text('Save Changes',
                         style: GoogleFonts.sora(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

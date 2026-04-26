@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:uuid/uuid.dart';
 import '../services/auth_service.dart';
 import '../services/firestore_service.dart';
+import '../services/notification_service.dart';
 import '../models/job_model.dart';
 import '../theme/app_theme.dart';
 
@@ -60,8 +61,9 @@ class _AddJobScreenState extends State<AddJobScreen> {
     }
     setState(() => _isLoading = true);
     try {
+      final jobId = const Uuid().v4();
       final job = JobModel(
-        id: const Uuid().v4(),
+        id: jobId,
         userId: _authService.currentUser?.uid ?? '',
         company: _companyController.text.trim(),
         role: _roleController.text.trim(),
@@ -72,6 +74,16 @@ class _AddJobScreenState extends State<AddJobScreen> {
         createdAt: DateTime.now(),
       );
       await _firestoreService.addJob(job);
+
+      if (_deadline != null) {
+        await NotificationService.scheduleDeadlineReminder(
+          id: jobId.hashCode,
+          company: _companyController.text.trim(),
+          role: _roleController.text.trim(),
+          deadline: _deadline!,
+        );
+      }
+
       if (mounted) Navigator.pop(context);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -98,21 +110,32 @@ class _AddJobScreenState extends State<AddJobScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildTextField(_companyController, 'Company Name', Icons.business_outlined),
+            _buildTextField(_companyController, 'Company Name',
+                Icons.business_outlined),
             const SizedBox(height: 16),
-            _buildTextField(_roleController, 'Role / Position', Icons.work_outline),
+            _buildTextField(
+                _roleController, 'Role / Position', Icons.work_outline),
             const SizedBox(height: 16),
-            Text('Status', style: TextStyle(color: AppColors.textGrey, fontSize: 14)),
+            Text('Status',
+                style: TextStyle(color: AppColors.textGrey, fontSize: 14)),
             const SizedBox(height: 8),
             Row(
-              children: ['applied', 'interview', 'selected', 'rejected'].map((s) {
+              children: ['applied', 'interview', 'selected', 'rejected']
+                  .map((s) {
                 final isSelected = _status == s;
                 Color color;
                 switch (s) {
-                  case 'applied': color = AppColors.info; break;
-                  case 'interview': color = AppColors.warning; break;
-                  case 'selected': color = AppColors.success; break;
-                  default: color = AppColors.error;
+                  case 'applied':
+                    color = AppColors.info;
+                    break;
+                  case 'interview':
+                    color = AppColors.warning;
+                    break;
+                  case 'selected':
+                    color = AppColors.success;
+                    break;
+                  default:
+                    color = AppColors.error;
                 }
                 return Expanded(
                   child: GestureDetector(
@@ -121,7 +144,9 @@ class _AddJobScreenState extends State<AddJobScreen> {
                       margin: const EdgeInsets.only(right: 6),
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       decoration: BoxDecoration(
-                        color: isSelected ? color.withOpacity(0.2) : AppColors.card,
+                        color: isSelected
+                            ? color.withOpacity(0.2)
+                            : AppColors.card,
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
                           color: isSelected ? color : Colors.transparent,
@@ -145,11 +170,16 @@ class _AddJobScreenState extends State<AddJobScreen> {
             const SizedBox(height: 16),
             _buildDateTile('Apply Date', _applyDate, () => _pickDate()),
             const SizedBox(height: 12),
-            _buildDateTile('Follow-up Deadline', _deadline,
-                () => _pickDate(isDeadline: true), optional: true),
+            _buildDateTile(
+              'Follow-up Deadline',
+              _deadline,
+              () => _pickDate(isDeadline: true),
+              optional: true,
+            ),
             const SizedBox(height: 16),
-            _buildTextField(_notesController, 'Notes (optional)',
-                Icons.notes_outlined, maxLines: 4),
+            _buildTextField(
+                _notesController, 'Notes (optional)', Icons.notes_outlined,
+                maxLines: 4),
             const SizedBox(height: 32),
             SizedBox(
               width: double.infinity,
@@ -179,7 +209,8 @@ class _AddJobScreenState extends State<AddJobScreen> {
   }
 
   Widget _buildTextField(TextEditingController controller, String label,
-      IconData icon, {int maxLines = 1}) {
+      IconData icon,
+      {int maxLines = 1}) {
     return TextField(
       controller: controller,
       maxLines: maxLines,
@@ -222,7 +253,9 @@ class _AddJobScreenState extends State<AddJobScreen> {
                 Text(
                   date != null
                       ? '${date.day}/${date.month}/${date.year}'
-                      : optional ? 'Select (optional)' : 'Select date',
+                      : optional
+                          ? 'Select (optional)'
+                          : 'Select date',
                   style: const TextStyle(color: AppColors.textWhite),
                 ),
               ],
