@@ -77,17 +77,45 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 60),
-              Text('HireReady.pk',
-                  style: GoogleFonts.sora(
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primary,
-                  )),
+              // Logo
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 52,
+                    height: 52,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: const Icon(
+                      Icons.work_rounded,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('HireReady.pk',
+                          style: GoogleFonts.sora(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textWhite,
+                          )),
+                      Text('.pk',
+                          style: GoogleFonts.sora(
+                            fontSize: 0,
+                          )),
+                    ],
+                  ),
+                ],
+              ),
               const SizedBox(height: 8),
               Text('Because your future is worth tracking',
-                  style:
-                      TextStyle(color: AppColors.textGrey, fontSize: 14)),
-              const SizedBox(height: 60),
+                  style: TextStyle(color: AppColors.textGrey, fontSize: 14)),
+              const SizedBox(height: 48),
               TextField(
                 controller: _emailController,
                 style: const TextStyle(color: AppColors.textWhite),
