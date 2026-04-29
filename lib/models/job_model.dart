@@ -11,6 +11,9 @@ class JobModel {
   final DateTime? deadline;
   final String? aiTips;
   final DateTime createdAt;
+  final String? cvLink;
+  final String? coverLetterLink;
+  final String? companyRequirements;
 
   JobModel({
     required this.id,
@@ -23,6 +26,9 @@ class JobModel {
     this.deadline,
     this.aiTips,
     required this.createdAt,
+    this.cvLink,
+    this.coverLetterLink,
+    this.companyRequirements,
   });
 
   factory JobModel.fromFirestore(DocumentSnapshot doc) {
@@ -40,6 +46,9 @@ class JobModel {
           : null,
       aiTips: data['aiTips'],
       createdAt: (data['createdAt'] as Timestamp).toDate(),
+      cvLink: data['cvLink'],
+      coverLetterLink: data['coverLetterLink'],
+      companyRequirements: data['companyRequirements'],
     );
   }
 
@@ -54,6 +63,9 @@ class JobModel {
       'deadline': deadline != null ? Timestamp.fromDate(deadline!) : null,
       'aiTips': aiTips,
       'createdAt': Timestamp.fromDate(createdAt),
+      'cvLink': cvLink,
+      'coverLetterLink': coverLetterLink,
+      'companyRequirements': companyRequirements,
     };
   }
 
@@ -64,6 +76,9 @@ class JobModel {
     String? notes,
     DateTime? deadline,
     String? aiTips,
+    String? cvLink,
+    String? coverLetterLink,
+    String? companyRequirements,
   }) {
     return JobModel(
       id: id,
@@ -76,6 +91,9 @@ class JobModel {
       deadline: deadline ?? this.deadline,
       aiTips: aiTips ?? this.aiTips,
       createdAt: createdAt,
+      cvLink: cvLink ?? this.cvLink,
+      coverLetterLink: coverLetterLink ?? this.coverLetterLink,
+      companyRequirements: companyRequirements ?? this.companyRequirements,
     );
   }
 }
