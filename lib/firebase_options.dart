@@ -73,4 +73,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'hireready-pk.firebasestorage.app',
     measurementId: 'G-F4X5RJBN03',
   );
+
 }
